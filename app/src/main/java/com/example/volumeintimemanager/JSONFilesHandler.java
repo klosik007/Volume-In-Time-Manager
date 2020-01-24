@@ -14,10 +14,12 @@ import java.io.IOException;
 
 public class JSONFilesHandler extends FilesHandler {
 
-    public JSONFilesHandler(){}
+    public JSONFilesHandler(Context context){
+        super(context);
+    }
 
-    public String addRuleToJSON(Context context, String fileName, Integer id, String timeFrom, String timeTo, String daysOfWeek, boolean isRuleInUse){
-        String file = readFile(context, fileName);
+    public String addRuleToJSON(String fileName, Integer id, String timeFrom, String timeTo, String daysOfWeek, int spinnerChoice, boolean isRuleInUse){
+        String file = readFile(fileName);
 
         try{
             JSONObject previousJSONObj = new JSONObject(file);
@@ -28,6 +30,7 @@ public class JSONFilesHandler extends FilesHandler {
             jsonObj.put("timeFrom", timeFrom);
             jsonObj.put("timeTo", timeTo);
             jsonObj.put("daysOfWeek", daysOfWeek);
+            jsonObj.put("spinnerChoice", spinnerChoice);
             jsonObj.put("isRuleInUse", isRuleInUse);
 
             array.put(jsonObj);
@@ -42,8 +45,8 @@ public class JSONFilesHandler extends FilesHandler {
         }
     }
 
-    public void overwriteJSONFile(Context context, String fileName, String json) {
-        String path = context.getFilesDir().getAbsolutePath() + "/" + fileName;
+    public void overwriteJSONFile(String fileName, String json) {
+        String path = _context.getFilesDir().getAbsolutePath() + "/" + fileName;
         File oldJSON = new File(path);
         oldJSON.delete();
 

@@ -14,12 +14,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class FilesHandler {
+    Context _context;
 
-    public FilesHandler(){}
+    public FilesHandler(Context context){
+        _context = context;
+    }
 
-    public String readFile(Context context, String fileName){
+    public String readFile(String fileName){
         try {
-            FileInputStream fs = context.openFileInput(fileName);
+            FileInputStream fs = _context.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(fs);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -37,9 +40,9 @@ public class FilesHandler {
         }
     }
 
-    public boolean createFile(Context context, String fileName, String jsonString){
+    public boolean createFile(String fileName, String jsonString){
         try{
-            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream fos = _context.openFileOutput(fileName, Context.MODE_PRIVATE);
             if(jsonString != null){
                 fos.write(jsonString.getBytes());
             }
@@ -52,8 +55,8 @@ public class FilesHandler {
         }
     }
 
-    public boolean isFileAvailable(Context context, String fileName){
-        String path = context.getFilesDir().getAbsolutePath() + "/" + fileName;
+    public boolean isFileAvailable(String fileName){
+        String path = _context.getFilesDir().getAbsolutePath() + "/" + fileName;
         Log.d("FilesHandler", path);
         File file = new File(path);
         return file.exists();

@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DayPicker extends AppCompatActivity {
-    List<String> _daysOfWeekPicked;
+    List<Integer> _daysOfWeekPicked;
     List<Integer> _days = Arrays.asList();
     String _dayPickerDaysText = "";
     public final static String MESSAGE_KEY ="com.example.volumeintimemanager.message_key";
@@ -33,15 +33,15 @@ public class DayPicker extends AppCompatActivity {
         widget.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
             @Override
             public void onChange(View view, int clickedDayOfWeek, List<Integer> selectedDays) {
-                _daysOfWeekPicked = widget.getSelectedDaysText();
+                _daysOfWeekPicked = widget.getSelectedDays();
             }
         });
     }
 
     public void selectButton(View view){
         Intent returnData = new Intent();
-        for (String day : _daysOfWeekPicked){
-            _dayPickerDaysText = _dayPickerDaysText + day + "; ";
+        for (int day : _daysOfWeekPicked){
+            _dayPickerDaysText = _dayPickerDaysText + day + ";";
         }
         returnData.putExtra(MESSAGE_KEY, _dayPickerDaysText);
         setResult(RESULT_OK, returnData);

@@ -3,6 +3,7 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_addRule">Add Rule</string>
     <string name="button_editRule">Edit Rule</string>
+    <string name="button_saveChanges">Save Changes</string>
     <string name="switch_text">Disable All Cases</string>
     <string name="dateFrom_hint">Time From</string>
     <string name="dateTo_hint">Time To</string>

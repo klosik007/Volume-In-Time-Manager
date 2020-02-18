@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setRingMode(int ringerMode){
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+    public void setRingMode(int ringerMode, Context context){
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && !notificationManager.isNotificationPolicyAccessGranted()) {
@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(
                     android.provider.Settings
                             .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-
-            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         }
 
-        audioMgr = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioMgr = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
         String mode = "";
         switch (ringerMode){
             case AudioManager.RINGER_MODE_VIBRATE:
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 mode = "Normal Mode On";
                 break;
         }
-        Toast.makeText(MainActivity.this, mode,
+        Toast.makeText(context, mode,
                 Toast.LENGTH_LONG).show();
         audioMgr.setRingerMode(ringerMode);
     }
@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mode == 0){
                     scheduleRule(dayOfWeek, hourFrom, minuteFrom, hourTo, minuteTo,
-                            AudioManager.RINGER_MODE_SILENT, AudioManager.RINGER_MODE_NORMAL, reqCode);
+                            AudioManager.RINGER_MODE_VIBRATE, AudioManager.RINGER_MODE_NORMAL, reqCode);
                 }
                 else if (mode == 1) {
                     scheduleRule(dayOfWeek, hourFrom, minuteFrom, hourTo, minuteTo,
-                            AudioManager.RINGER_MODE_NORMAL, AudioManager.RINGER_MODE_SILENT, reqCode);
+                            AudioManager.RINGER_MODE_NORMAL, AudioManager.RINGER_MODE_VIBRATE, reqCode);
                 }
                 reqCodeList.add(reqCode);
                 reqCodeList.add(reqCode+1);

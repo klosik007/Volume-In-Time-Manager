@@ -16,7 +16,7 @@ public class AlarmFireOnEvening extends BroadcastReceiver {
         _mode = MainActivity.passRingerToData();
 
         MainActivity main = new MainActivity();
-        main.setRingMode(_mode);
+        main.setRingMode(_mode, context);
         Toast.makeText(context, "Evening alarm fired", Toast.LENGTH_LONG).show();
     }
 }

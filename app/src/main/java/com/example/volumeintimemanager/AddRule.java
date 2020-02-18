@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,15 +16,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-public class AddRule extends AppCompatActivity {
+public class AddRule extends AppCompatActivity implements IAddRule{
     TimePickerDialog timePicker;
     EditText timeFromEditText;
     EditText timeToEditText;
@@ -58,7 +55,7 @@ public class AddRule extends AppCompatActivity {
         }
     };
 
-    private String checkDigit(int number){
+    public String checkDigit(int number){
         return number <= 9 ? "0"+ number : String.valueOf(number);
     }
 
@@ -114,7 +111,7 @@ public class AddRule extends AppCompatActivity {
         Log.d("AddRule", jsonString2);
     }
 
-    private void loadSpinnerItems(){
+    public void loadSpinnerItems(){
         Spinner behaviorSpinner = (Spinner)findViewById(R.id.behaviorSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

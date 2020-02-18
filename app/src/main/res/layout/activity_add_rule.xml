@@ -11,8 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="173dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="55dp"
         android:ems="10"
         android:hint="@string/daysOfWeek_hint"
@@ -27,66 +27,52 @@
     <EditText
         android:id="@+id/timeFromTextBox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="173dp"
-        android:layout_marginRight="173dp"
         android:ems="10"
         android:hint="@string/dateFrom_hint"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/daysOfWeekSetup" />
 
     <EditText
         android:id="@+id/timeToTextBox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="173dp"
-        android:layout_marginBottom="62dp"
         android:ems="10"
         android:hint="@string/dateTo_hint"
         android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/addRuleButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeFromTextBox"
-        app:layout_constraintVertical_bias="0.302" />
+        app:layout_constraintTop_toBottomOf="@+id/timeFromTextBox" />
 
     <Button
         android:id="@+id/addRuleButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="298dp"
-        android:layout_marginBottom="216dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
         android:onClick="addRuleButton"
         android:text="@string/button_addRule"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeToTextBox"
         tools:text="@string/button_addRule" />
 
     <Spinner
         android:id="@+id/behaviorSpinner"
-        android:layout_width="209dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="173dp"
-        android:layout_marginBottom="39dp"
-        app:layout_constraintBottom_toTopOf="@+id/addRuleButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
+        android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeToTextBox"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/timeToTextBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

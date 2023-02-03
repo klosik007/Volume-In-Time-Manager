@@ -24,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RelativeLayout layout;
+    //ScrollView scrollView;
     AudioManager audioMgr;
     Switch toggle_switch;
     private static int id = 0;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayRules(List<List<String>> rules){
         if (!rules.isEmpty()){
+            //scrollView = (ScrollView)findViewById(R.id.scrollView2);
             layout = (RelativeLayout)findViewById(R.id.relativeLayout);
             layout.invalidate();
 

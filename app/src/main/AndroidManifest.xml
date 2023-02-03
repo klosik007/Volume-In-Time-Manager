@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.volumeintimemanager">
+>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -28,7 +28,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +41,10 @@
         <receiver android:name=".AlarmFireOnMorning"></receiver>
         <receiver android:name=".AlarmFireOnEvening"></receiver>
         <!-- Will not be called unless the application explicitly enables it -->
-        <receiver android:name=".AlarmFireOnDeviceBoot"
-            android:enabled="false">
+        <receiver
+            android:name=".AlarmFireOnDeviceBoot"
+            android:enabled="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>

@@ -4,14 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewDebug;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.dpro.widgets.OnWeekdaysChangeListener;
-import com.dpro.widgets.WeekdaysPicker;
+//import com.dpro.widgets.OnWeekdaysChangeListener;
+//import com.dpro.widgets.WeekdaysPicker;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,14 +24,14 @@ public class DayPicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_picker);
 
-        final WeekdaysPicker widget = (WeekdaysPicker)findViewById(R.id.weekdays);
-        widget.setSelectedDays(_days); //provide no days are selected by default
-        widget.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
-            @Override
-            public void onChange(View view, int clickedDayOfWeek, List<Integer> selectedDays) {
-                _daysOfWeekPicked = widget.getSelectedDays();
-            }
-        });
+//        final WeekdaysPicker widget = (WeekdaysPicker)findViewById(R.id.weekdays);
+//        widget.setSelectedDays(_days); //provide no days are selected by default
+//        widget.setOnWeekdaysChangeListener(new OnWeekdaysChangeListener() {
+//            @Override
+//            public void onChange(View view, int clickedDayOfWeek, List<Integer> selectedDays) {
+//                _daysOfWeekPicked = widget.getSelectedDays();
+//            }
+//        });
     }
 
     public void selectButton(View view){

@@ -26,6 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.volumeintimemanager.R
+import com.example.volumeintimemanager.db.Rule
+import com.example.volumeintimemanager.sampledata.RulesRepo
+import com.example.volumeintimemanager.utils.RuleUtils
 
 @Composable
 private fun ApplicationBar() {
@@ -80,9 +83,46 @@ private fun MainButtonsAndSpinner() {
 }
 
 @Composable
-fun RulesData() {
+fun Rule(rule: Rule) {
+    var checked by remember { mutableStateOf(true) }
 
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(5.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(5.dp).weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {// days
+            Text(rule.weekDays)
+        }
+        Column(
+            modifier = Modifier.padding(5.dp).weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {//hours
+            Text(text = "${rule.timeFrom} - ${rule.timeTo}")
+        }
+        Column(
+            modifier = Modifier.padding(5.dp).weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(stringResource(R.string.switch_disable))
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                }
+            )
+        }
+    }
 }
+
+//@Composable
+//fun RulesData(rules: List<Rule>) {
+//
+//}
 
 @Composable
 fun Home() {
@@ -92,7 +132,7 @@ fun Home() {
                 MainButtonsAndSpinner()
             }
             Row {
-                RulesData()
+//                RulesData()
             }
         }
     }
@@ -110,6 +150,12 @@ private fun ApplicationBarPreview() {
     Surface {
         ApplicationBar()
     }
+}
+
+@Preview
+@Composable
+private fun RulePreview() {
+    Rule(RulesRepo.getRules()[0])
 }
 
 @Preview

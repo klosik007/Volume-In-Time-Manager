@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -24,7 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.db.Rule
 import com.example.volumeintimemanager.sampledata.RulesRepo
@@ -85,30 +89,60 @@ private fun MainButtonsAndSpinner() {
 @Composable
 fun Rule(rule: Rule) {
     var checked by remember { mutableStateOf(true) }
+    val weekNamesFull = remember { RuleUtils.convertWeekdaysShortcutsToFullNames(rule.weekDays) }
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(5.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(5.dp).weight(1f),
+        LazyColumn(
+            modifier = Modifier
+                .padding(5.dp)
+                .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {// days
-            Text(rule.weekDays)
+            items(
+                items = weekNamesFull
+            ) { weekDay ->
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp,
+                    text = weekDay,
+                )
+            }
         }
+
         Column(
-            modifier = Modifier.padding(5.dp).weight(1f),
+            modifier = Modifier
+                .padding(5.dp)
+                .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {//hours
-            Text(text = "${rule.timeFrom} - ${rule.timeTo}")
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp,
+                text = "${rule.timeFrom} \n-\n${rule.timeTo}"
+            )
         }
+
         Column(
-            modifier = Modifier.padding(5.dp).weight(1f),
+            modifier = Modifier
+                .padding(5.dp)
+                .weight(1f)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(stringResource(R.string.switch_disable))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.switch_disable),
+                textAlign = TextAlign.Center
+            )
             Switch(
                 checked = checked,
                 onCheckedChange = {

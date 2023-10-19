@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -87,7 +89,7 @@ private fun MainButtonsAndSpinner() {
 }
 
 @Composable
-fun Rule(rule: Rule) {
+fun RuleRow(rule: Rule) {
     var checked by remember { mutableStateOf(true) }
     val weekNamesFull = remember { RuleUtils.convertWeekdaysShortcutsToFullNames(rule.weekDays) }
 
@@ -96,16 +98,14 @@ fun Rule(rule: Rule) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .padding(5.dp)
                 .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {// days
-            items(
-                items = weekNamesFull
-            ) { weekDay ->
+            weekNamesFull.forEach { weekDay ->
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
@@ -153,20 +153,25 @@ fun Rule(rule: Rule) {
     }
 }
 
-//@Composable
-//fun RulesData(rules: List<Rule>) {
-//
-//}
-
 @Composable
 fun Home() {
     MaterialTheme {
         Scaffold(topBar = { ApplicationBar() }) { _ ->
-            Row() {
-                MainButtonsAndSpinner()
-            }
-            Row {
-//                RulesData()
+            LazyColumn() {
+                item {
+                    MainButtonsAndSpinner()
+                }
+                items(
+                    items = RulesRepo.getRules(),
+                    key = { rule ->
+                        rule.id
+                    }
+                ) {rule ->
+                    RuleRow(rule)
+                    Divider(
+                        color = Color.Blue
+                    )
+                }
             }
         }
     }
@@ -189,7 +194,7 @@ private fun ApplicationBarPreview() {
 @Preview
 @Composable
 private fun RulePreview() {
-    Rule(RulesRepo.getRules()[0])
+    RuleRow(RulesRepo.getRules()[0])
 }
 
 @Preview

@@ -5,8 +5,8 @@
     <string name="button_editRule">Edit Rule</string>
     <string name="button_saveChanges">Save Changes</string>
     <string name="switch_text">Disable All Cases</string>
-    <string name="dateFrom_hint">Time From</string>
-    <string name="dateTo_hint">Time To</string>
+    <string name="timeFrom_hint">Time From</string>
+    <string name="timeTo_hint">Time To</string>
     <string name="daysOfWeek_hint">Days Of Week</string>
     <string name="dayPicker_info">Select Day(s) of Week</string>
     <string name="button_select">Select</string>

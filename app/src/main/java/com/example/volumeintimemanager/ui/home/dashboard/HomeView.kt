@@ -37,53 +37,25 @@ import com.example.volumeintimemanager.sampledata.RulesRepo
 import com.example.volumeintimemanager.utils.RuleUtils
 
 @Composable
-private fun ApplicationBar() {
-    TopAppBar(
-        navigationIcon =  {
-            Icon(
-                imageVector = Icons.Rounded.Tune,
-                contentDescription = null,
-                modifier = Modifier.padding(5.dp)
-            )
-        },
-        title = {
-            Text(stringResource(id = R.string.app_name))
-        },
-        backgroundColor = MaterialTheme.colors.primary
-    )
-}
-
-@Composable
-private fun MainButtonsAndSpinner() {
-    var checked by remember { mutableStateOf(true) }
-
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(5.dp)) {
-            Button(onClick = {}) {
-                Text(stringResource(R.string.button_addRule))
-            }
-        }
-        Column(modifier = Modifier
-            .padding(5.dp)
-            .weight(1f)) {
-            Button(onClick = {}) {
-                Text(stringResource(R.string.button_editRule))
-            }
-        }
-        Column(
-            modifier = Modifier.padding(5.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Text(stringResource(R.string.switch_text))
-            Switch(
-                checked = checked,
-                onCheckedChange = {
-                    checked = it
+fun Home() {
+    MaterialTheme {
+        Scaffold(topBar = { ApplicationBar() }) { _ ->
+            LazyColumn() {
+                item {
+                    MainButtonsAndSpinner()
                 }
-            )
+                items(
+                    items = RulesRepo.getRules(),
+                    key = { rule ->
+                        rule.id
+                    }
+                ) {rule ->
+                    RuleRow(rule)
+                    Divider(
+                        color = Color.Blue
+                    )
+                }
+            }
         }
     }
 }
@@ -154,25 +126,53 @@ fun RuleRow(rule: Rule) {
 }
 
 @Composable
-fun Home() {
-    MaterialTheme {
-        Scaffold(topBar = { ApplicationBar() }) { _ ->
-            LazyColumn() {
-                item {
-                    MainButtonsAndSpinner()
-                }
-                items(
-                    items = RulesRepo.getRules(),
-                    key = { rule ->
-                        rule.id
-                    }
-                ) {rule ->
-                    RuleRow(rule)
-                    Divider(
-                        color = Color.Blue
-                    )
-                }
+private fun ApplicationBar() {
+    TopAppBar(
+        navigationIcon =  {
+            Icon(
+                imageVector = Icons.Rounded.Tune,
+                contentDescription = null,
+                modifier = Modifier.padding(5.dp)
+            )
+        },
+        title = {
+            Text(stringResource(id = R.string.app_name))
+        },
+        backgroundColor = MaterialTheme.colors.primary
+    )
+}
+
+@Composable
+private fun MainButtonsAndSpinner() {
+    var checked by remember { mutableStateOf(true) }
+
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(5.dp)) {
+            Button(onClick = {}) {
+                Text(stringResource(R.string.button_addRule))
             }
+        }
+        Column(modifier = Modifier
+            .padding(5.dp)
+            .weight(1f)) {
+            Button(onClick = {}) {
+                Text(stringResource(R.string.button_editRule))
+            }
+        }
+        Column(
+            modifier = Modifier.padding(5.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Text(stringResource(R.string.switch_text))
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                }
+            )
         }
     }
 }

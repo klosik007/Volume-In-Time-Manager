@@ -30,7 +30,7 @@ import com.example.volumeintimemanager.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddRule() {
+fun EditRule() {
     val daysHintText = stringResource(id = R.string.daysOfWeek_hint)
     val timeFromText = stringResource(id = R.string.timeFrom_hint)
     val timeToText = stringResource(id = R.string.timeTo_hint)
@@ -104,7 +104,7 @@ fun AddRule() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Button(onClick = {}) {
-                            Text(stringResource(id = R.string.button_addRule))
+                            Text(stringResource(id = R.string.button_saveChanges))
                         }
                     }
                 }
@@ -116,5 +116,5 @@ fun AddRule() {
 @Preview
 @Composable
 private fun EditRulePreview() {
-    AddRule()
+    EditRule()
 }

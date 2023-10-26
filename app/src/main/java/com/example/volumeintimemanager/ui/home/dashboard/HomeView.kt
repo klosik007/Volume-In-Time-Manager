@@ -110,15 +110,11 @@ fun RuleRow(rule: Rule) {
             modifier = Modifier
                 .padding(5.dp)
                 .weight(1f)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .align(Alignment.Bottom),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End,
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.switch_disable),
-                textAlign = TextAlign.Center
-            )
             Switch(
                 checked = checked,
                 onCheckedChange = {
@@ -157,47 +153,6 @@ private fun AddRuleButton() {
     }
 }
 
-@Composable
-private fun MainButtonsAndSpinner() {
-    var checked by remember { mutableStateOf(true) }
-
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(5.dp)) {
-            Button(onClick = {}) {
-                Text(stringResource(R.string.button_addRule))
-            }
-        }
-        Column(modifier = Modifier
-            .padding(5.dp)
-            .weight(1f)) {
-            Button(onClick = {}) {
-                Text(stringResource(R.string.button_editRule))
-            }
-        }
-        Column(
-            modifier = Modifier.padding(5.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Text(stringResource(R.string.switch_text))
-            Switch(
-                checked = checked,
-                onCheckedChange = {
-                    checked = it
-                }
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun MainButtonsAndSpinnerPreview() {
-    MainButtonsAndSpinner()
-}
-
 @Preview
 @Composable
 private fun ApplicationBarPreview() {
@@ -208,8 +163,10 @@ private fun ApplicationBarPreview() {
 
 @Preview
 @Composable
-private fun RulePreview() {
-    RuleRow(RulesRepo.getRules()[0])
+private fun RuleRowPreview() {
+    Surface {
+        RuleRow(RulesRepo.getRules()[0])
+    }
 }
 
 @Preview

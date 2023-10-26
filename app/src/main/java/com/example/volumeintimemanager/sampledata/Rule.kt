@@ -30,8 +30,17 @@ private val rule3 = Rule(
     false
 )
 
+private val rule4 = Rule(
+    4,
+    "8:00",
+    "16:00",
+    "Mon;Tue;Wed;Thu;Fri;Sat;Sun",
+    false
+)
+
 private val rules = listOf(
     rule1,
     rule2,
-    rule3
+    rule3,
+    rule4
 )

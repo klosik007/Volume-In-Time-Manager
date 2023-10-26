@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,6 +22,7 @@ import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,11 +42,12 @@ import com.example.volumeintimemanager.utils.RuleUtils
 @Composable
 fun Home() {
     MaterialTheme {
-        Scaffold(topBar = { ApplicationBar() }) { _ ->
+        Scaffold(
+            topBar = { ApplicationBar() },
+            floatingActionButton = { AddRuleButton() },
+            floatingActionButtonPosition = FabPosition.Center
+        ) { _ ->
             LazyColumn() {
-                item {
-                    MainButtonsAndSpinner()
-                }
                 items(
                     items = RulesRepo.getRules(),
                     key = { rule ->
@@ -140,6 +144,17 @@ private fun ApplicationBar() {
         },
         backgroundColor = MaterialTheme.colors.primary
     )
+}
+
+@Composable
+private fun AddRuleButton() {
+    FloatingActionButton(onClick = { /*TODO*/ }) {
+        Icon(
+            imageVector = Icons.Rounded.Add,
+            contentDescription = null,
+            modifier = Modifier.padding(5.dp)
+        )
+    }
 }
 
 @Composable

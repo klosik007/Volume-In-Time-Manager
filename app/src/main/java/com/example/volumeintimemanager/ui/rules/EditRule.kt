@@ -31,11 +31,11 @@ import com.example.volumeintimemanager.R
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditRule() {
-    val daysHintText = stringResource(id = R.string.daysOfWeek_hint)
+    //val daysHintText = stringResource(id = R.string.daysOfWeek_hint)
     val timeFromText = stringResource(id = R.string.timeFrom_hint)
     val timeToText = stringResource(id = R.string.timeTo_hint)
 
-    val daysOfWeek by remember { mutableStateOf(daysHintText) }
+    //val daysOfWeek by remember { mutableStateOf(daysHintText) }
     val timeFrom by remember { mutableStateOf(timeFromText) }
     val timeTo by remember { mutableStateOf(timeToText) }
 
@@ -48,20 +48,16 @@ fun EditRule() {
             Column(
                 modifier = Modifier.padding(end = 5.dp)
             ) {
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 5.dp)) {
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = daysOfWeek,
-                        onValueChange = {}
-                    )
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
+                   DayPicker()
                 }
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp)) {
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(value = timeFrom, onValueChange = {})
+                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), value = timeFrom, onValueChange = {})
                 }
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(value = timeTo, onValueChange = {})
+                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), value = timeTo, onValueChange = {})
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
                     Column(
@@ -94,17 +90,6 @@ fun EditRule() {
                                     )
                                 }
                             }
-                        }
-                    }
-                    Column (
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .weight(1f),
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Button(onClick = {}) {
-                            Text(stringResource(id = R.string.button_saveChanges))
                         }
                     }
                 }

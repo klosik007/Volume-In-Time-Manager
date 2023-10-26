@@ -1,5 +1,6 @@
 package com.example.volumeintimemanager.ui.home.dashboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -37,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.db.Rule
 import com.example.volumeintimemanager.sampledata.RulesRepo
+import com.example.volumeintimemanager.ui.rules.EditRule
 import com.example.volumeintimemanager.utils.RuleUtils
 
 @Composable
@@ -54,10 +58,7 @@ fun Home() {
                         rule.id
                     }
                 ) {rule ->
-                    RuleRow(rule)
-                    Divider(
-                        color = Color.Blue
-                    )
+                    ExpandableCard(rule = rule)
                 }
             }
         }
@@ -65,7 +66,7 @@ fun Home() {
 }
 
 @Composable
-fun RuleRow(rule: Rule) {
+private fun RuleRow(rule: Rule) {
     var checked by remember { mutableStateOf(true) }
     val weekNamesFull = remember { RuleUtils.convertWeekdaysShortcutsToFullNames(rule.weekDays) }
 
@@ -153,6 +154,27 @@ private fun AddRuleButton() {
     }
 }
 
+@Composable
+private fun ExpandableCard(rule: Rule) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable(onClick = { expanded = !expanded })
+    ) {
+        Column() {
+            RuleRow(rule)
+            if (expanded) {
+                EditRule()
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun ApplicationBarPreview() {
@@ -168,6 +190,14 @@ private fun RuleRowPreview() {
         RuleRow(RulesRepo.getRules()[0])
     }
 }
+@Preview
+@Composable
+private fun ExpendableCardPreview() {
+    Surface {
+        ExpandableCard(RulesRepo.getRules()[0])
+    }
+}
+
 
 @Preview
 @Composable

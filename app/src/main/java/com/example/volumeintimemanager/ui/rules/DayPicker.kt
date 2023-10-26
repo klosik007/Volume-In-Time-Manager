@@ -44,7 +44,7 @@ private fun DayCircle(weekDay: String) {
     Box {
         Canvas(
             modifier = Modifier
-                .size(40.dp)
+                .size(36.dp)
                 .clickable {
                     isFilled.value = !isFilled.value
                 },

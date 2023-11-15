@@ -48,7 +48,13 @@ class RoomDbTest {
     @Test
     @Throws(Exception::class)
     fun updateRule() {
-        val newRule1Data = Rule(1, "8:20", "16:00", "Mon;Tue;Wed;Thu:Fri", true)
+        val newRule1Data = Rule(1, "8:20", "16:00", monday = true,
+            tuesday = true,
+            wednesday = true,
+            thursday = true,
+            friday = true,
+            saturday = false,
+            sunday = false, true)
         ruleDao.updateRule(newRule1Data)
 
         val updatedRule = ruleDao.getRule(1)
@@ -67,6 +73,20 @@ class RoomDbTest {
     private lateinit var ruleDao: RuleDao
     private lateinit var db: AppDatabase
 
-    private val rule1 = Rule(1, "8:00", "16:00", "Mon;Tue;Wed;Thu:Fri", true)
-    private val rule2 = Rule(2, "16:01", "7:59", "Mon;Tue;Wed;Thu:Fri", false)
+    private val rule1 = Rule(1, "8:00", "16:00",
+        monday = true,
+        tuesday = true,
+        wednesday = true,
+        thursday = true,
+        friday = true,
+        saturday = true,
+        sunday = true, true)
+    private val rule2 = Rule(2, "16:01", "7:59",
+        monday = true,
+        tuesday = true,
+        wednesday = true,
+        thursday = true,
+        friday = true,
+        saturday = true,
+        sunday = true, false)
 }

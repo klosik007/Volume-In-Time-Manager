@@ -7,35 +7,46 @@ object RulesRepo {
 }
 
 private val rule1 = Rule(
-    1,
-    "8:00",
-    "16:00",
-    "Mon;Wed;Fri",
-    true
+    id = 1,
+    timeFrom = "8:00",
+    timeTo = "16:00",
+    monday = true,
+    wednesday = true,
+    friday = true,
+    soundOn = true
 )
 
 private val rule2 = Rule(
-    2,
-    "9:00",
-    "15:00",
-    "Tue;Thu;Sat",
-    true
+    id = 2,
+    timeFrom = "9:00",
+    timeTo = "15:00",
+    tuesday = true,
+    thursday = true,
+    saturday = true,
+    soundOn = true
 )
 
 private val rule3 = Rule(
-    3,
-    "8:00",
-    "16:00",
-    "Fri;Sun",
-    false
+    id = 3,
+    timeFrom = "8:00",
+    timeTo = "16:00",
+    friday = true,
+    sunday = true,
+    soundOn = false
 )
 
 private val rule4 = Rule(
-    4,
-    "8:00",
-    "16:00",
-    "Mon;Tue;Wed;Thu;Fri;Sat;Sun",
-    false
+    id = 4,
+    timeFrom = "8:00",
+    timeTo = "16:00",
+    monday = true,
+    tuesday = true,
+    wednesday = true,
+    thursday = true,
+    friday = true,
+    saturday = true,
+    sunday = true,
+    soundOn = false
 )
 
 private val rules = listOf(

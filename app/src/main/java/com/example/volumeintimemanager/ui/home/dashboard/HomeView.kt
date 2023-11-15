@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -32,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,7 +38,6 @@ import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.db.Rule
 import com.example.volumeintimemanager.sampledata.RulesRepo
 import com.example.volumeintimemanager.ui.rules.EditRule
-import com.example.volumeintimemanager.utils.RuleUtils
 
 @Composable
 fun Home() {
@@ -64,11 +60,19 @@ fun Home() {
         }
     }
 }
+@Composable
+private fun WeekDayText(weekDay: String) {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        fontSize = 12.sp,
+        text = weekDay,
+    )
+}
 
 @Composable
 private fun RuleRow(rule: Rule) {
     var checked by remember { mutableStateOf(true) }
-    val weekNamesFull = remember { RuleUtils.convertWeekdaysShortcutsToFullNames(rule.weekDays) }
 
     Row(
         modifier = Modifier
@@ -81,15 +85,21 @@ private fun RuleRow(rule: Rule) {
                 .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {// days
-            weekNamesFull.forEach { weekDay ->
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp,
-                    text = weekDay,
-                )
-            }
+        ) {
+            if (rule.monday)
+                WeekDayText(weekDay = "Monday")
+            if (rule.tuesday)
+                WeekDayText(weekDay = "Tuesday")
+            if (rule.wednesday)
+                WeekDayText(weekDay = "Wednesday")
+            if (rule.thursday)
+                WeekDayText(weekDay = "Thursday")
+            if (rule.friday)
+                WeekDayText(weekDay = "Friday")
+            if (rule.saturday)
+                WeekDayText(weekDay = "Saturday")
+            if (rule.sunday)
+                WeekDayText(weekDay = "Sunday")
         }
 
         Column(
@@ -169,7 +179,7 @@ private fun ExpandableCard(rule: Rule) {
         Column() {
             RuleRow(rule)
             if (expanded) {
-                EditRule()
+                EditRule(rule)
             }
         }
     }

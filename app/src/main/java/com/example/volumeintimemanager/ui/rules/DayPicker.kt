@@ -2,7 +2,6 @@ package com.example.volumeintimemanager.ui.rules
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -23,23 +22,30 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.volumeintimemanager.db.Rule
+import com.example.volumeintimemanager.sampledata.RulesRepo
 
 @Composable
-fun DayPicker() {
+fun DayPicker(rule: Rule) {
     val weekDaysLetters by remember { mutableStateOf(listOf("M", "T", "W", "T", "F", "S", "S")) }
+    val weekDaysApplies by remember { mutableStateOf(
+        listOf(
+            rule.monday, rule.tuesday, rule.wednesday, rule.thursday, rule.friday, rule.saturday, rule.sunday)
+        )
+    }
 
     Row() {
-        weekDaysLetters.forEach {
+        for (idx in weekDaysLetters.indices) {
             Column(modifier = Modifier.padding(5.dp)) {
-                DayCircle(weekDay = it)
+                DayCircle(weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx])
             }
         }
     }
 }
 
 @Composable
-private fun DayCircle(weekDay: String) {
-    val isFilled = remember { mutableStateOf(false) }
+private fun DayCircle(weekDay: String, weekDayApply: Boolean) {
+    val isFilled = remember { mutableStateOf(weekDayApply) }
 
     Box {
         Canvas(
@@ -47,6 +53,7 @@ private fun DayCircle(weekDay: String) {
                 .size(36.dp)
                 .clickable {
                     isFilled.value = !isFilled.value
+                    // TODO: operations on DB: modify week days list depending on selected day - from separate method
                 },
             onDraw = {
                 val canvasWidth = size.width
@@ -72,7 +79,7 @@ private fun DayCircle(weekDay: String) {
 @Composable
 private fun DayCirclePreview() {
     Surface {
-        DayCircle("M")
+        DayCircle("M", true)
     }
 }
 
@@ -80,6 +87,6 @@ private fun DayCirclePreview() {
 @Composable
 private fun DayPickerPreview() {
     Surface {
-        DayPicker()
+        DayPicker(RulesRepo.getRules()[0])
     }
 }

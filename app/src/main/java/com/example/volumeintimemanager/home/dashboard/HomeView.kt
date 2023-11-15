@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.ui.home.dashboard
+package com.example.volumeintimemanager.home.dashboard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.db.Rule
 import com.example.volumeintimemanager.sampledata.RulesRepo
-import com.example.volumeintimemanager.ui.rules.EditRule
+import com.example.volumeintimemanager.home.rules.EditRule
 
 @Composable
 fun Home() {

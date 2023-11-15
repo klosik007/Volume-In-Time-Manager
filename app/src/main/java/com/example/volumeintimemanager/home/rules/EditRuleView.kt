@@ -1,11 +1,10 @@
-package com.example.volumeintimemanager.ui.rules
+package com.example.volumeintimemanager.home.rules
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
@@ -20,25 +19,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.volumeintimemanager.R
+import com.example.volumeintimemanager.db.Rule
+import com.example.volumeintimemanager.sampledata.RulesRepo
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddRule() {
-    val daysHintText = stringResource(id = R.string.daysOfWeek_hint)
-    val timeFromText = stringResource(id = R.string.timeFrom_hint)
-    val timeToText = stringResource(id = R.string.timeTo_hint)
-
-    val daysOfWeek by remember { mutableStateOf(daysHintText) }
-    val timeFrom by remember { mutableStateOf(timeFromText) }
-    val timeTo by remember { mutableStateOf(timeToText) }
-
+fun EditRule(rule: Rule) {
     val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
     var soundsExpanded by remember { mutableStateOf(false) }
     var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
@@ -48,20 +39,16 @@ fun AddRule() {
             Column(
                 modifier = Modifier.padding(end = 5.dp)
             ) {
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 5.dp)) {
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = daysOfWeek,
-                        onValueChange = {}
-                    )
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
+                   DayPicker(rule)
                 }
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp)) {
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(value = timeFrom, onValueChange = {})
+                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), label = { Text(text = "Time From") }, value = rule.timeFrom, onValueChange = {})
                 }
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
+                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(value = timeTo, onValueChange = {})
+                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), label = { Text(text = "Time To")}, value = rule.timeTo, onValueChange = {})
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
                     Column(
@@ -96,17 +83,6 @@ fun AddRule() {
                             }
                         }
                     }
-                    Column (
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .weight(1f),
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Button(onClick = {}) {
-                            Text(stringResource(id = R.string.button_addRule))
-                        }
-                    }
                 }
             }
         }
@@ -116,5 +92,6 @@ fun AddRule() {
 @Preview
 @Composable
 private fun EditRulePreview() {
-    AddRule()
+    val rules = RulesRepo.getRules()
+    EditRule(rules[0])
 }

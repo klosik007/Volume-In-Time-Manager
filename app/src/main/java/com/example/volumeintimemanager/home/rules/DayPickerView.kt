@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.ui.rules
+package com.example.volumeintimemanager.home.rules
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -37,14 +37,14 @@ fun DayPicker(rule: Rule) {
     Row() {
         for (idx in weekDaysLetters.indices) {
             Column(modifier = Modifier.padding(5.dp)) {
-                DayCircle(weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx])
+                DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx])
             }
         }
     }
 }
 
 @Composable
-private fun DayCircle(weekDay: String, weekDayApply: Boolean) {
+private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean) {
     val isFilled = remember { mutableStateOf(weekDayApply) }
 
     Box {
@@ -79,7 +79,7 @@ private fun DayCircle(weekDay: String, weekDayApply: Boolean) {
 @Composable
 private fun DayCirclePreview() {
     Surface {
-        DayCircle("M", true)
+        DayCircle(0, "M", true)
     }
 }
 

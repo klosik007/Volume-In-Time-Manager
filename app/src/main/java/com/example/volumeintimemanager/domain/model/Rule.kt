@@ -1,10 +1,10 @@
-package com.example.volumeintimemanager.db
+package com.example.volumeintimemanager.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "rule")
+@Entity(tableName = "rule_table")
 data class Rule(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "TIME_FROM") var timeFrom: String,

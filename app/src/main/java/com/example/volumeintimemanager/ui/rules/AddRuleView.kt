@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.home.rules
+package com.example.volumeintimemanager.ui.rules
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

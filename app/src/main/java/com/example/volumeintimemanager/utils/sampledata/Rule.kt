@@ -1,6 +1,6 @@
-package com.example.volumeintimemanager.sampledata
+package com.example.volumeintimemanager.utils.sampledata
 
-import com.example.volumeintimemanager.db.Rule
+import com.example.volumeintimemanager.domain.model.Rule
 
 object RulesRepo {
     fun getRules(): List<Rule> = rules

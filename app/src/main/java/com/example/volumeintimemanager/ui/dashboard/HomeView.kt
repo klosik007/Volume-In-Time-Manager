@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.home.dashboard
+package com.example.volumeintimemanager.ui.dashboard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +25,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,13 +35,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.volumeintimemanager.R
-import com.example.volumeintimemanager.db.Rule
-import com.example.volumeintimemanager.sampledata.RulesRepo
-import com.example.volumeintimemanager.home.rules.EditRule
+import com.example.volumeintimemanager.domain.model.Rule
+import com.example.volumeintimemanager.utils.sampledata.RulesRepo
+import com.example.volumeintimemanager.ui.rules.EditRule
 
 @Composable
-fun Home() {
+fun Home(viewModel: HomeViewModel = hiltViewModel()) {
+    val rules by viewModel.rules.collectAsState(initial = emptyList())
+    
     MaterialTheme {
         Scaffold(
             topBar = { ApplicationBar() },
@@ -49,7 +53,7 @@ fun Home() {
         ) { _ ->
             LazyColumn() {
                 items(
-                    items = RulesRepo.getRules(),
+                    items = rules,
                     key = { rule ->
                         rule.id
                     }
@@ -207,7 +211,6 @@ private fun ExpendableCardPreview() {
         ExpandableCard(RulesRepo.getRules()[0])
     }
 }
-
 
 @Preview
 @Composable

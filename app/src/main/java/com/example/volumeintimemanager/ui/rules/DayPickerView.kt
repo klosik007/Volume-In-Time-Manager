@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.home.rules
+package com.example.volumeintimemanager.ui.rules
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.volumeintimemanager.db.Rule
-import com.example.volumeintimemanager.sampledata.RulesRepo
+import com.example.volumeintimemanager.domain.model.Rule
+import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 
 @Composable
 fun DayPicker(rule: Rule) {
@@ -53,7 +53,15 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean) {
                 .size(36.dp)
                 .clickable {
                     isFilled.value = !isFilled.value
-                    // TODO: operations on DB: modify week days list depending on selected day - from separate method
+                    when (weekDayIdx) {
+                        0 -> {}
+                        1 -> {}
+                        2 -> {}
+                        3 -> {}
+                        4 -> {}
+                        5 -> {}
+                        6 -> {}
+                    }
                 },
             onDraw = {
                 val canvasWidth = size.width

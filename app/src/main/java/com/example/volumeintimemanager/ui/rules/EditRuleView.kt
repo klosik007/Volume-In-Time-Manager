@@ -1,4 +1,4 @@
-package com.example.volumeintimemanager.home.rules
+package com.example.volumeintimemanager.ui.rules
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,8 +24,8 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.volumeintimemanager.R
-import com.example.volumeintimemanager.db.Rule
-import com.example.volumeintimemanager.sampledata.RulesRepo
+import com.example.volumeintimemanager.domain.model.Rule
+import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

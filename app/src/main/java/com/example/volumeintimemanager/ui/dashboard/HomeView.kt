@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -71,7 +72,7 @@ fun Home(viewModel: HomeViewModel = hiltViewModel()) {
                         rule.id
                     }
                 ) {rule ->
-                    ExpandableCard(rule = rule)
+                    ExpandableCard(viewModel, rule = rule)
                 }
             }
 
@@ -94,7 +95,7 @@ private fun WeekDayText(weekDay: String) {
 }
 
 @Composable
-private fun RuleRow(rule: Rule) {
+private fun RuleRow(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
     var checked by remember { mutableStateOf(true) }
 
     Row(
@@ -160,11 +161,12 @@ private fun RuleRow(rule: Rule) {
         Row(
             horizontalArrangement = Arrangement.End
         ){
-            Icon(
-                imageVector = Icons.Rounded.Delete,
-                contentDescription = null,
-                modifier = Modifier.padding(5.dp)
-            )
+            Button(modifier = Modifier.padding(5.dp), onClick = { viewModel.deleteRule(rule) }) {
+                Icon(
+                    imageVector = Icons.Rounded.Delete,
+                    contentDescription = null,
+                )
+            }
         }
     }
 }
@@ -318,7 +320,7 @@ private fun AddRuleDialog(
 }
 
 @Composable
-private fun ExpandableCard(rule: Rule) {
+private fun ExpandableCard(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -330,7 +332,7 @@ private fun ExpandableCard(rule: Rule) {
             .clickable(onClick = { expanded = !expanded })
     ) {
         Column() {
-            RuleRow(rule)
+            RuleRow(viewModel, rule)
             if (expanded) {
                 EditRule(rule)
             }
@@ -350,14 +352,14 @@ private fun ApplicationBarPreview() {
 @Composable
 private fun RuleRowPreview() {
     Surface {
-        RuleRow(RulesRepo.getRules()[0])
+        RuleRow(rule = RulesRepo.getRules()[0])
     }
 }
 @Preview
 @Composable
 private fun ExpendableCardPreview() {
     Surface {
-        ExpandableCard(RulesRepo.getRules()[0])
+        ExpandableCard(rule = RulesRepo.getRules()[0])
     }
 }
 

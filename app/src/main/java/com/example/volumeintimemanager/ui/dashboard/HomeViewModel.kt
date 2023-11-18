@@ -23,6 +23,8 @@ class HomeViewModel @Inject constructor(private val repo: RuleRepository): ViewM
         )
     ); private set
 
+    var openDialog by mutableStateOf(false)
+
     val rules = repo.getRulesFromRoom()
 
     fun getRule(id: Int) = viewModelScope.launch {
@@ -39,5 +41,13 @@ class HomeViewModel @Inject constructor(private val repo: RuleRepository): ViewM
 
     fun deleteRule(rule: Rule) = viewModelScope.launch {
         repo.deleteRuleFromRoom(rule)
+    }
+
+    fun openDialog() {
+        openDialog = true
+    }
+
+    fun closeDialog() {
+        openDialog = false
     }
 }

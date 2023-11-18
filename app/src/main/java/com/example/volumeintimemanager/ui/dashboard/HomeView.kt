@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -17,10 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -31,6 +39,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +47,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.domain.model.Rule
+import com.example.volumeintimemanager.ui.rules.AddRule
+import com.example.volumeintimemanager.ui.rules.DayPicker
 import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 import com.example.volumeintimemanager.ui.rules.EditRule
 
@@ -48,7 +59,7 @@ fun Home(viewModel: HomeViewModel = hiltViewModel()) {
     MaterialTheme {
         Scaffold(
             topBar = { ApplicationBar() },
-            floatingActionButton = { AddRuleButton() },
+            floatingActionButton = { AddRuleButton(openDialog = { viewModel.openDialog() }) },
             floatingActionButtonPosition = FabPosition.Center
         ) { _ ->
             LazyColumn() {
@@ -61,6 +72,12 @@ fun Home(viewModel: HomeViewModel = hiltViewModel()) {
                     ExpandableCard(rule = rule)
                 }
             }
+
+            AddRuleDialog(
+                openDialog = viewModel.openDialog,
+                closeDialog = { viewModel.closeDialog() },
+                addRule = { rule -> viewModel.addRule(rule)}
+            )
         }
     }
 }
@@ -158,12 +175,132 @@ private fun ApplicationBar() {
 }
 
 @Composable
-private fun AddRuleButton() {
-    FloatingActionButton(onClick = { /*TODO*/ }) {
+private fun AddRuleButton(openDialog: () -> Unit) {
+    FloatingActionButton(onClick = { openDialog() }) {
         Icon(
             imageVector = Icons.Rounded.Add,
             contentDescription = null,
             modifier = Modifier.padding(5.dp)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun AddRuleDialog(
+    openDialog: Boolean,
+    closeDialog: () -> Unit,
+    addRule: (rule: Rule) -> Unit
+) {
+    if (openDialog) {
+        val rule by remember {
+            mutableStateOf(
+                Rule(
+                    0, "", "", false, false,
+                    false, false, false, false, false, false)
+            )
+        }
+        val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
+        var soundsExpanded by remember { mutableStateOf(false) }
+        var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
+
+        AlertDialog(
+            onDismissRequest = { closeDialog() },
+            title = { Text(text = "Add Rule") },
+            text = {
+                Column(
+                    modifier = Modifier.padding(end = 5.dp)
+                ) {
+                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 5.dp)) {
+                        DayPicker(rule)
+                    }
+                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
+                        // TODO: fill the half of parent
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = { Text(text = "Time From") },
+                            value = rule.timeFrom,
+                            onValueChange = {})
+                    }
+                    Row(
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            top = 24.dp,
+                            end = 24.dp,
+                            bottom = 24.dp
+                        )
+                    ) {
+                        // TODO: fill the half of parent
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = { Text(text = "Time To") },
+                            value = rule.timeTo,
+                            onValueChange = {})
+                    }
+                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
+                        Column(
+                            modifier = Modifier
+                                .padding(end = 5.dp)
+                                .weight(1f),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            ExposedDropdownMenuBox(
+                                expanded = soundsExpanded,
+                                onExpandedChange = { soundsExpanded = !soundsExpanded }
+                            ) {
+                                TextField(
+                                    value = selectedSoundState,
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = soundsExpanded
+                                        )
+                                    }
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = soundsExpanded,
+                                    onDismissRequest = { /*TODO*/ }
+                                ) {
+                                    soundsStates.forEach { item ->
+                                        DropdownMenuItem(
+                                            content = { Text(text = item) },
+                                            onClick = {
+                                                selectedSoundState = item
+                                                soundsExpanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        closeDialog()
+                        //val rule = Rule(0, )
+                        addRule(rule)
+                    }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.button_addRule)
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        closeDialog()
+                    }
+                ) {
+                    Text(
+                        text = "Cancel"
+                    )
+                }
+            }
         )
     }
 }

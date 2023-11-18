@@ -5,6 +5,10 @@ plugins {
     id "dagger.hilt.android.plugin"
 }
 
+kotlin {
+    jvmToolchain 17
+}
+
 android {
     compileSdkVersion 34
     defaultConfig {
@@ -20,16 +24,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.current()
-        targetCompatibility JavaVersion.current()
-    }
-
-    kotlinOptions {
-        jvmTarget = 17
-        allWarningsAsErrors = true
     }
 
     buildFeatures {

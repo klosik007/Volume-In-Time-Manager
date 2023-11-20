@@ -36,7 +36,7 @@ fun DayPicker(rule: Rule) {
 
     Row() {
         for (idx in weekDaysLetters.indices) {
-            Column(modifier = Modifier.padding(5.dp)) {
+            Column() {
                 DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx], rule = rule)
             }
         }

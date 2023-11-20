@@ -229,7 +229,7 @@ private fun AddRuleDialog(
                 Column(
                     modifier = Modifier.padding(end = 5.dp)
                 ) {
-                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 5.dp)) {
+                    Row(modifier = Modifier.padding(start = 12.dp, top = 24.dp, end = 5.dp)) {
                         DayPicker(rule)
                     }
                     Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {

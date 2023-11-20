@@ -37,14 +37,14 @@ fun DayPicker(rule: Rule) {
     Row() {
         for (idx in weekDaysLetters.indices) {
             Column(modifier = Modifier.padding(5.dp)) {
-                DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx])
+                DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx], rule = rule)
             }
         }
     }
 }
 
 @Composable
-private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean) {
+private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, rule: Rule) {
     val isFilled = remember { mutableStateOf(weekDayApply) }
 
     Box {
@@ -54,13 +54,13 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean) {
                 .clickable {
                     isFilled.value = !isFilled.value
                     when (weekDayIdx) {
-                        0 -> {}
-                        1 -> {}
-                        2 -> {}
-                        3 -> {}
-                        4 -> {}
-                        5 -> {}
-                        6 -> {}
+                        0 -> { rule.monday = !rule.monday }
+                        1 -> { rule.tuesday = !rule.tuesday }
+                        2 -> { rule.wednesday = !rule.wednesday }
+                        3 -> { rule.thursday = !rule.thursday }
+                        4 -> { rule.friday = !rule.friday }
+                        5 -> { rule.saturday = !rule.saturday }
+                        6 -> { rule.sunday = !rule.sunday }
                     }
                 },
             onDraw = {
@@ -87,7 +87,10 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean) {
 @Composable
 private fun DayCirclePreview() {
     Surface {
-        DayCircle(0, "M", true)
+        DayCircle(0, "M", true, Rule(
+            0, "", "", false, false,
+            false, false, false, false, false, false)
+        )
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.volumeintimemanager.ui.dashboard
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -213,7 +214,7 @@ private fun AddRuleDialog(
         val rule by remember {
             mutableStateOf(
                 Rule(
-                    0, timeFrom, timeTo, false, false,
+                    0, "", "", false, false,
                     false, false, false, false, false, false)
             )
         }
@@ -300,6 +301,8 @@ private fun AddRuleDialog(
                 TextButton(
                     onClick = {
                         closeDialog()
+                        rule.timeFrom = timeFrom
+                        rule.timeTo = timeTo
                         addRule(rule)
                     }
                 ) {

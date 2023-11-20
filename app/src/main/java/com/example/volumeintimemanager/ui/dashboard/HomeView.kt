@@ -342,6 +342,8 @@ private fun ExpandableCard(viewModel: HomeViewModel = hiltViewModel(), rule: Rul
             RuleRow(viewModel, rule)
             if (expanded) {
                 EditRule(rule)
+            } else {
+                viewModel.updateRule(rule)
             }
         }
     }

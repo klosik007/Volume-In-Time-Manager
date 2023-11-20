@@ -207,16 +207,21 @@ private fun AddRuleDialog(
     addRule: (rule: Rule) -> Unit
 ) {
     if (openDialog) {
+        var timeFrom by remember { mutableStateOf("") }
+        var timeTo by remember { mutableStateOf("") }
+
         val rule by remember {
             mutableStateOf(
                 Rule(
-                    0, "", "", false, false,
+                    0, timeFrom, timeTo, false, false,
                     false, false, false, false, false, false)
             )
         }
+
         val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
         var soundsExpanded by remember { mutableStateOf(false) }
         var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
+
 
         AlertDialog(
             onDismissRequest = { closeDialog() },
@@ -233,8 +238,8 @@ private fun AddRuleDialog(
                         OutlinedTextField(
                             modifier = Modifier.fillMaxWidth(),
                             label = { Text(text = "Time From") },
-                            value = rule.timeFrom,
-                            onValueChange = {})
+                            value = timeFrom,
+                            onValueChange = { timeFrom = it })
                     }
                     Row(
                         modifier = Modifier.padding(
@@ -248,8 +253,8 @@ private fun AddRuleDialog(
                         OutlinedTextField(
                             modifier = Modifier.fillMaxWidth(),
                             label = { Text(text = "Time To") },
-                            value = rule.timeTo,
-                            onValueChange = {})
+                            value = timeTo,
+                            onValueChange = { timeTo = it })
                     }
                     Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
                         Column(
@@ -295,7 +300,6 @@ private fun AddRuleDialog(
                 TextButton(
                     onClick = {
                         closeDialog()
-                        //val rule = Rule(0, )
                         addRule(rule)
                     }
                 ) {

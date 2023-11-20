@@ -30,6 +30,9 @@ import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditRule(rule: Rule) {
+    var timeFrom by remember { mutableStateOf(rule.timeFrom) }
+    var timeTo by remember { mutableStateOf(rule.timeTo) }
+
     val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
     var soundsExpanded by remember { mutableStateOf(false) }
     var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
@@ -44,11 +47,21 @@ fun EditRule(rule: Rule) {
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), label = { Text(text = "Time From") }, value = rule.timeFrom, onValueChange = {})
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Time From") },
+                        value = timeFrom,
+                        onValueChange = { timeFrom = it; rule.timeFrom = timeFrom }
+                    )
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 24.dp)) {
                     // TODO: fill the half of parent
-                    OutlinedTextField(modifier = Modifier.fillMaxWidth(), label = { Text(text = "Time To")}, value = rule.timeTo, onValueChange = {})
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Time To") },
+                        value = timeTo,
+                        onValueChange = { timeTo = it; rule.timeTo = timeTo }
+                    )
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
                     Column(

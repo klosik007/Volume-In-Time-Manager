@@ -1,6 +1,5 @@
 package com.example.volumeintimemanager.ui.dashboard
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -51,7 +49,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.volumeintimemanager.R
 import com.example.volumeintimemanager.domain.model.Rule
-import com.example.volumeintimemanager.ui.rules.AddRule
 import com.example.volumeintimemanager.ui.rules.DayPicker
 import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 import com.example.volumeintimemanager.ui.rules.EditRule
@@ -210,6 +207,7 @@ private fun AddRuleDialog(
     if (openDialog) {
         var timeFrom by remember { mutableStateOf("") }
         var timeTo by remember { mutableStateOf("") }
+        var soundOn by remember {mutableStateOf(false)}
 
         val rule by remember {
             mutableStateOf(
@@ -288,6 +286,7 @@ private fun AddRuleDialog(
                                             onClick = {
                                                 selectedSoundState = item
                                                 soundsExpanded = false
+                                                soundOn = selectedSoundState != soundsStates[0]
                                             }
                                         )
                                     }
@@ -303,6 +302,7 @@ private fun AddRuleDialog(
                         closeDialog()
                         rule.timeFrom = timeFrom
                         rule.timeTo = timeTo
+                        rule.soundOn = soundOn
                         addRule(rule)
                     }
                 ) {

@@ -35,7 +35,7 @@ fun EditRule(rule: Rule) {
 
     val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
     var soundsExpanded by remember { mutableStateOf(false) }
-    var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
+    var selectedSoundState by remember { mutableStateOf(if (rule.soundOn) soundsStates[1] else soundsStates[0]) }
 
     MaterialTheme {
         Surface(modifier = Modifier.padding(5.dp)) {
@@ -90,6 +90,7 @@ fun EditRule(rule: Rule) {
                                         onClick = {
                                             selectedSoundState = item
                                             soundsExpanded = false
+                                            rule.soundOn = selectedSoundState != soundsStates[0]
                                         }
                                     )
                                 }

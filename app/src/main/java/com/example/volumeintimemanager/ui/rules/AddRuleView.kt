@@ -112,7 +112,7 @@ fun AddRule(rule: Rule) {
 @Preview
 @Composable
 private fun AddRulePreview() {
-    val rule = Rule(0, "", "", false, false,
+    val rule = Rule(0, true, "", "", false, false,
         false, false, false, false, false, false)
     AddRule(rule)
 }

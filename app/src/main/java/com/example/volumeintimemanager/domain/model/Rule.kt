@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "rule_table")
 data class Rule(
     @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "APPLY_RULE") var applyRule: Boolean,
     @ColumnInfo(name = "TIME_FROM") var timeFrom: String,
     @ColumnInfo(name = "TIME_TO") var timeTo: String,
     @ColumnInfo(name = "APPLY_ON_MONDAY") var monday: Boolean = false,

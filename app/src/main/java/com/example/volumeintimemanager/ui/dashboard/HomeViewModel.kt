@@ -15,7 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repo: RuleRepository): ViewModel() {
     var rule by mutableStateOf(
         Rule(
-            id = 0, timeFrom = "", timeTo = "",
+            id = 0, applyRule = true, timeFrom = "", timeTo = "",
             monday = false,  tuesday = false,
             wednesday = false,  thursday = false,
             friday = false,  saturday = false,

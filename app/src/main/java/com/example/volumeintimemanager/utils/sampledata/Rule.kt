@@ -8,6 +8,7 @@ object RulesRepo {
 
 private val rule1 = Rule(
     id = 1,
+    applyRule = true,
     timeFrom = "8:00",
     timeTo = "16:00",
     monday = true,
@@ -18,6 +19,7 @@ private val rule1 = Rule(
 
 private val rule2 = Rule(
     id = 2,
+    applyRule = true,
     timeFrom = "9:00",
     timeTo = "15:00",
     tuesday = true,
@@ -28,6 +30,7 @@ private val rule2 = Rule(
 
 private val rule3 = Rule(
     id = 3,
+    applyRule = true,
     timeFrom = "8:00",
     timeTo = "16:00",
     friday = true,
@@ -37,6 +40,7 @@ private val rule3 = Rule(
 
 private val rule4 = Rule(
     id = 4,
+    applyRule = true,
     timeFrom = "8:00",
     timeTo = "16:00",
     monday = true,

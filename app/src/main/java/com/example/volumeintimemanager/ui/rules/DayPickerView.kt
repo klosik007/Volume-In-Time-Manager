@@ -88,7 +88,7 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, r
 private fun DayCirclePreview() {
     Surface {
         DayCircle(0, "M", true, Rule(
-            0, "", "", false, false,
+            0, true, "", "", false, false,
             false, false, false, false, false, false)
         )
     }

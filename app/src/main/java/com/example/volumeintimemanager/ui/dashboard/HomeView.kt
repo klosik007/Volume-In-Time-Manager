@@ -94,7 +94,7 @@ private fun WeekDayText(weekDay: String) {
 
 @Composable
 private fun RuleRow(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
-    var checked by remember { mutableStateOf(true) }
+    var checked by remember { mutableStateOf(rule.applyRule) }
 
     Row(
         modifier = Modifier
@@ -152,6 +152,8 @@ private fun RuleRow(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
                 checked = checked,
                 onCheckedChange = {
                     checked = it
+                    rule.applyRule = checked
+                    viewModel.updateRule(rule)
                 }
             )
         }
@@ -212,7 +214,7 @@ private fun AddRuleDialog(
         val rule by remember {
             mutableStateOf(
                 Rule(
-                    0, "", "", false, false,
+                    0, true, "", "", false, false,
                     false, false, false, false, false, false)
             )
         }

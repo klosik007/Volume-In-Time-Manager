@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -41,6 +42,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -93,7 +95,7 @@ private fun WeekDayText(weekDay: String) {
 }
 
 @Composable
-private fun RuleRow(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
+private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule) {
     var checked by remember { mutableStateOf(rule.applyRule) }
 
     Row(
@@ -145,28 +147,29 @@ private fun RuleRow(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
                 .weight(1f)
                 .fillMaxWidth()
                 .align(Alignment.Bottom),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Switch(
-                checked = checked,
-                onCheckedChange = {
-                    checked = it
-                    rule.applyRule = checked
-                    viewModel.updateRule(rule)
-                }
+            Button(
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                elevation = null,
+                onClick = { viewModel?.deleteRule(rule) }
             )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.End
-        ){
-            Button(modifier = Modifier.padding(5.dp), onClick = { viewModel.deleteRule(rule) }) {
+            {
                 Icon(
                     imageVector = Icons.Rounded.Delete,
                     contentDescription = null,
                 )
             }
+
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                    rule.applyRule = checked
+                    viewModel?.updateRule(rule)
+                }
+            )
         }
     }
 }
@@ -329,7 +332,7 @@ private fun AddRuleDialog(
 }
 
 @Composable
-private fun ExpandableCard(viewModel: HomeViewModel = hiltViewModel(), rule: Rule) {
+private fun ExpandableCard(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -345,7 +348,7 @@ private fun ExpandableCard(viewModel: HomeViewModel = hiltViewModel(), rule: Rul
             if (expanded) {
                 EditRule(rule)
             } else {
-                viewModel.updateRule(rule)
+                viewModel?.updateRule(rule)
             }
         }
     }
@@ -363,14 +366,14 @@ private fun ApplicationBarPreview() {
 @Composable
 private fun RuleRowPreview() {
     Surface {
-        RuleRow(rule = RulesRepo.getRules()[0])
+        RuleRow(null, rule = RulesRepo.getRules()[0])
     }
 }
 @Preview
 @Composable
 private fun ExpendableCardPreview() {
     Surface {
-        ExpandableCard(rule = RulesRepo.getRules()[0])
+        ExpandableCard(null, rule = RulesRepo.getRules()[0])
     }
 }
 

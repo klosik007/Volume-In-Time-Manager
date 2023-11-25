@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".alarms.SoundOnReceiver" />
+        <receiver android:name=".alarms.SoundOffReceiver" />
     </application>
 
 </manifest>

@@ -156,7 +156,14 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, ala
             Button(
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 elevation = null,
-                onClick = { viewModel?.deleteRule(rule) }
+                onClick = {
+                    val alarmItems = createAlarmItemListForWeekDays(rule)
+                    for (alarm in alarmItems) {
+                        alarmScheduler?.cancel(alarm)
+                    }
+
+                    viewModel?.deleteRule(rule)
+                }
             )
             {
                 Icon(

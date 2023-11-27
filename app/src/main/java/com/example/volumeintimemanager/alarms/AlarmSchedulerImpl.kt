@@ -17,13 +17,18 @@ class AlarmSchedulerImpl(private val context: Context): AlarmScheduler {
             set(Calendar.MINUTE, alarmItem.timeFrom.substringAfter(':').toInt())
         }
 
-        if (alarmItem.soundsOn)
+        var alarmInfo = ""
+
+        alarmInfo = if (alarmItem.soundsOn) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeFromCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOnPendingIntent)
-        else
+            "Sounds on from ${alarmItem.timeFrom}"
+        } else {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeFromCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOffPendingIntent)
+            "Sounds off from ${alarmItem.timeFrom}"
+        }
 
         // TODO: show toolbar notification
-        Toast.makeText(context, "Sounds on from ${alarmItem.timeFrom}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, alarmInfo, Toast.LENGTH_LONG).show()
     }
 
     override fun turnOff(alarmItem: AlarmItem) {
@@ -34,13 +39,20 @@ class AlarmSchedulerImpl(private val context: Context): AlarmScheduler {
             set(Calendar.MINUTE, alarmItem.timeTo.substringAfter(':').toInt())
         }
 
-        if (alarmItem.soundsOn)
+        var alarmInfo = ""
+
+        alarmInfo = if (alarmItem.soundsOn) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeToCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOffPendingIntent)
-        else
+            "Sounds off from ${alarmItem.timeTo}"
+        }
+        else {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeToCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOnPendingIntent)
+            "Sounds on from ${alarmItem.timeTo}"
+        }
+
 
         // TODO: show toolbar notification
-        Toast.makeText(context, "Sounds off from ${alarmItem.timeFrom}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, alarmInfo, Toast.LENGTH_LONG).show()
     }
 
     override fun cancel(alarmItem: AlarmItem) {

@@ -50,13 +50,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.volumeintimemanager.R
+import com.example.volumeintimemanager.alarms.AlarmItem
+import com.example.volumeintimemanager.alarms.AlarmScheduler
 import com.example.volumeintimemanager.domain.model.Rule
 import com.example.volumeintimemanager.ui.rules.DayPicker
 import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 import com.example.volumeintimemanager.ui.rules.EditRule
 
 @Composable
-fun Home(viewModel: HomeViewModel = hiltViewModel()) {
+fun Home(viewModel: HomeViewModel = hiltViewModel(), alarmScheduler: AlarmScheduler? = null) {
     val rules by viewModel.rules.collectAsState(initial = emptyList())
     
     MaterialTheme {
@@ -65,14 +67,14 @@ fun Home(viewModel: HomeViewModel = hiltViewModel()) {
             floatingActionButton = { AddRuleButton(openDialog = { viewModel.openDialog() }) },
             floatingActionButtonPosition = FabPosition.Center
         ) { _ ->
-            LazyColumn() {
+            LazyColumn {
                 items(
                     items = rules,
                     key = { rule ->
                         rule.id
                     }
                 ) {rule ->
-                    ExpandableCard(viewModel, rule = rule)
+                    ExpandableCard(viewModel, rule = rule, alarmScheduler)
                 }
             }
 
@@ -95,7 +97,7 @@ private fun WeekDayText(weekDay: String) {
 }
 
 @Composable
-private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule) {
+private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, alarmScheduler: AlarmScheduler? = null) {
     var checked by remember { mutableStateOf(rule.applyRule) }
 
     Row(
@@ -168,8 +170,59 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule) {
                     checked = it
                     rule.applyRule = checked
                     viewModel?.updateRule(rule)
+
+                    val alarmItems = mutableListOf<AlarmItem>()
+
+                    if (rule.monday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 2, rule.soundOn))
+                    if (rule.tuesday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 3, rule.soundOn))
+                    if (rule.wednesday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 4, rule.soundOn))
+                    if (rule.thursday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 5, rule.soundOn))
+                    if (rule.friday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 6, rule.soundOn))
+                    if (rule.saturday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 7, rule.soundOn))
+                    if (rule.sunday)
+                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 1, rule.soundOn))
+
+                    if (checked) {
+                        for (alarm in alarmItems) {
+                            alarmScheduler?.turnOn(alarm)
+                            alarmScheduler?.turnOff(alarm)
+                        }
+                    }
+                    else
+                        for (alarm in alarmItems) {
+                            alarmScheduler?.cancel(alarm)
+                        }
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun ExpandableCard(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, alarmScheduler: AlarmScheduler? = null) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable(onClick = { expanded = !expanded })
+    ) {
+        Column {
+            RuleRow(viewModel, rule, alarmScheduler)
+            if (expanded) {
+                EditRule(rule)
+            } else {
+                viewModel?.updateRule(rule)
+            }
         }
     }
 }
@@ -328,29 +381,6 @@ private fun AddRuleDialog(
                 }
             }
         )
-    }
-}
-
-@Composable
-private fun ExpandableCard(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        elevation = 8.dp,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(onClick = { expanded = !expanded })
-    ) {
-        Column() {
-            RuleRow(viewModel, rule)
-            if (expanded) {
-                EditRule(rule)
-            } else {
-                viewModel?.updateRule(rule)
-            }
-        }
     }
 }
 

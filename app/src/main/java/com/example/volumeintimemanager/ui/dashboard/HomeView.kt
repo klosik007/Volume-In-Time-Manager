@@ -50,12 +50,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.volumeintimemanager.R
-import com.example.volumeintimemanager.alarms.AlarmItem
 import com.example.volumeintimemanager.alarms.AlarmScheduler
 import com.example.volumeintimemanager.domain.model.Rule
 import com.example.volumeintimemanager.ui.rules.DayPicker
 import com.example.volumeintimemanager.utils.sampledata.RulesRepo
 import com.example.volumeintimemanager.ui.rules.EditRule
+import com.example.volumeintimemanager.utils.createAlarmItemListForWeekDays
 
 @Composable
 fun Home(viewModel: HomeViewModel = hiltViewModel(), alarmScheduler: AlarmScheduler? = null) {
@@ -81,7 +81,8 @@ fun Home(viewModel: HomeViewModel = hiltViewModel(), alarmScheduler: AlarmSchedu
             AddRuleDialog(
                 openDialog = viewModel.openDialog,
                 closeDialog = { viewModel.closeDialog() },
-                addRule = { rule -> viewModel.addRule(rule)}
+                addRule = { rule -> viewModel.addRule(rule) },
+                alarmScheduler
             )
         }
     }
@@ -171,22 +172,7 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, ala
                     rule.applyRule = checked
                     viewModel?.updateRule(rule)
 
-                    val alarmItems = mutableListOf<AlarmItem>()
-
-                    if (rule.monday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 2, rule.soundOn))
-                    if (rule.tuesday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 3, rule.soundOn))
-                    if (rule.wednesday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 4, rule.soundOn))
-                    if (rule.thursday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 5, rule.soundOn))
-                    if (rule.friday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 6, rule.soundOn))
-                    if (rule.saturday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 7, rule.soundOn))
-                    if (rule.sunday)
-                        alarmItems.add(AlarmItem(rule.timeFrom, rule.timeTo, 1, rule.soundOn))
+                    val alarmItems = createAlarmItemListForWeekDays(rule)
 
                     if (checked) {
                         for (alarm in alarmItems) {
@@ -194,10 +180,11 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, ala
                             alarmScheduler?.turnOff(alarm)
                         }
                     }
-                    else
+                    else {
                         for (alarm in alarmItems) {
                             alarmScheduler?.cancel(alarm)
                         }
+                    }
                 }
             )
         }
@@ -260,7 +247,8 @@ private fun AddRuleButton(openDialog: () -> Unit) {
 private fun AddRuleDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
-    addRule: (rule: Rule) -> Unit
+    addRule: (rule: Rule) -> Unit,
+    alarmScheduler: AlarmScheduler?
 ) {
     if (openDialog) {
         var timeFrom by remember { mutableStateOf("") }
@@ -362,6 +350,12 @@ private fun AddRuleDialog(
                         rule.timeTo = timeTo
                         rule.soundOn = soundOn
                         addRule(rule)
+
+                        val alarmItems = createAlarmItemListForWeekDays(rule)
+                        for (alarm in alarmItems) {
+                            alarmScheduler?.turnOn(alarm)
+                            alarmScheduler?.turnOff(alarm)
+                        }
                     }
                 ) {
                     Text(

@@ -183,8 +183,7 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, ala
 
                     if (checked) {
                         for (alarm in alarmItems) {
-                            alarmScheduler?.turnOn(alarm)
-                            alarmScheduler?.turnOff(alarm)
+                            alarmScheduler?.schedule(alarm)
                         }
                     }
                     else {
@@ -360,8 +359,7 @@ private fun AddRuleDialog(
 
                         val alarmItems = createAlarmItemListForWeekDays(rule)
                         for (alarm in alarmItems) {
-                            alarmScheduler?.turnOn(alarm)
-                            alarmScheduler?.turnOff(alarm)
+                            alarmScheduler?.schedule(alarm)
                         }
                     }
                 ) {

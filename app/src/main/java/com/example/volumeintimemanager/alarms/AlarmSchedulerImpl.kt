@@ -9,7 +9,9 @@ import java.util.Calendar
 
 class AlarmSchedulerImpl(private val context: Context): AlarmScheduler {
 
-    override fun turnOn(alarmItem: AlarmItem) {
+    override fun schedule(alarmItem: AlarmItem) {
+        var alarmInfo = ""
+
         val timeFromCalendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.DAY_OF_WEEK, alarmItem.weekDay)
@@ -17,21 +19,14 @@ class AlarmSchedulerImpl(private val context: Context): AlarmScheduler {
             set(Calendar.MINUTE, alarmItem.timeFrom.substringAfter(':').toInt())
         }
 
-        var alarmInfo = ""
-
-        alarmInfo = if (alarmItem.soundsOn) {
+        alarmInfo += if (alarmItem.soundsOn) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeFromCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOnPendingIntent)
-            "Sounds on from ${alarmItem.timeFrom}"
+            "Sounds on from ${alarmItem.timeFrom}. "
         } else {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeFromCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOffPendingIntent)
-            "Sounds off from ${alarmItem.timeFrom}"
+            "Sounds off from ${alarmItem.timeFrom}. "
         }
 
-        // TODO: show toolbar notification
-        Toast.makeText(context, alarmInfo, Toast.LENGTH_LONG).show()
-    }
-
-    override fun turnOff(alarmItem: AlarmItem) {
         val timeToCalendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.DAY_OF_WEEK, alarmItem.weekDay)
@@ -39,19 +34,14 @@ class AlarmSchedulerImpl(private val context: Context): AlarmScheduler {
             set(Calendar.MINUTE, alarmItem.timeTo.substringAfter(':').toInt())
         }
 
-        var alarmInfo = ""
-
-        alarmInfo = if (alarmItem.soundsOn) {
+        alarmInfo += if (alarmItem.soundsOn) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeToCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOffPendingIntent)
-            "Sounds off from ${alarmItem.timeTo}"
-        }
-        else {
+            "Sounds off from ${alarmItem.timeTo}."
+        } else {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeToCalendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, turnOnPendingIntent)
-            "Sounds on from ${alarmItem.timeTo}"
+            "Sounds on from ${alarmItem.timeTo}."
         }
 
-
-        // TODO: show toolbar notification
         Toast.makeText(context, alarmInfo, Toast.LENGTH_LONG).show()
     }
 

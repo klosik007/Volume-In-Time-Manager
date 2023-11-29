@@ -254,12 +254,6 @@ private fun AddRuleButton(openDialog: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TimePickerBox(initHour: Int, initMinute: Int, is24HourFormat: Boolean) {
-    TimePicker(state = TimePickerState(initHour, initMinute, is24HourFormat))
-}
-
 @Composable
 private fun AddRuleDialog(
     openDialog: Boolean,

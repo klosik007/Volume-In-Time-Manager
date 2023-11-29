@@ -1,5 +1,6 @@
 package com.example.volumeintimemanager.ui.dashboard
 
+import android.app.TimePickerDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,9 +35,13 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -248,7 +254,12 @@ private fun AddRuleButton(openDialog: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TimePickerBox(initHour: Int, initMinute: Int, is24HourFormat: Boolean) {
+    TimePicker(state = TimePickerState(initHour, initMinute, is24HourFormat))
+}
+
 @Composable
 private fun AddRuleDialog(
     openDialog: Boolean,
@@ -257,104 +268,22 @@ private fun AddRuleDialog(
     alarmScheduler: AlarmScheduler?
 ) {
     if (openDialog) {
-        var timeFrom by remember { mutableStateOf("") }
-        var timeTo by remember { mutableStateOf("") }
-        var soundOn by remember {mutableStateOf(false)}
-
         val rule by remember {
             mutableStateOf(
                 Rule(
-                    0, true, "", "", false, false,
-                    false, false, false, false, false, false)
+                    0, true, timeFrom = "", timeTo = "", monday = false, tuesday = false,
+                    wednesday = false, thursday = false, friday = false, saturday = false, sunday = false, soundOn = false)
             )
         }
-
-        val soundsStates = stringArrayResource(id = R.array.behaviorSpinner_array)
-        var soundsExpanded by remember { mutableStateOf(false) }
-        var selectedSoundState by remember { mutableStateOf(soundsStates[0]) }
-
 
         AlertDialog(
             onDismissRequest = { closeDialog() },
             title = { Text(text = "Add Rule") },
-            text = {
-                Column(
-                    modifier = Modifier.padding(end = 5.dp)
-                ) {
-                    Row(modifier = Modifier.padding(start = 12.dp, top = 24.dp, end = 5.dp)) {
-                        DayPicker(rule)
-                    }
-                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
-                        // TODO: fill the half of parent
-                        OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = { Text(text = "Time From") },
-                            value = timeFrom,
-                            onValueChange = { timeFrom = it })
-                    }
-                    Row(
-                        modifier = Modifier.padding(
-                            start = 24.dp,
-                            top = 24.dp,
-                            end = 24.dp,
-                            bottom = 24.dp
-                        )
-                    ) {
-                        // TODO: fill the half of parent
-                        OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = { Text(text = "Time To") },
-                            value = timeTo,
-                            onValueChange = { timeTo = it })
-                    }
-                    Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 24.dp)) {
-                        Column(
-                            modifier = Modifier
-                                .padding(end = 5.dp)
-                                .weight(1f),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            ExposedDropdownMenuBox(
-                                expanded = soundsExpanded,
-                                onExpandedChange = { soundsExpanded = !soundsExpanded }
-                            ) {
-                                TextField(
-                                    value = selectedSoundState,
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = soundsExpanded
-                                        )
-                                    }
-                                )
-                                ExposedDropdownMenu(
-                                    expanded = soundsExpanded,
-                                    onDismissRequest = { /*TODO*/ }
-                                ) {
-                                    soundsStates.forEach { item ->
-                                        DropdownMenuItem(
-                                            content = { Text(text = item) },
-                                            onClick = {
-                                                selectedSoundState = item
-                                                soundsExpanded = false
-                                                soundOn = selectedSoundState != soundsStates[0]
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+            text = { EditRule(rule = rule) },
             confirmButton = {
                 TextButton(
                     onClick = {
                         closeDialog()
-                        rule.timeFrom = timeFrom
-                        rule.timeTo = timeTo
-                        rule.soundOn = soundOn
                         addRule(rule)
 
                         val alarmItems = createAlarmItemListForWeekDays(rule)

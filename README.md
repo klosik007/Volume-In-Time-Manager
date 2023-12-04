@@ -10,4 +10,4 @@ I decided to update technologies and use:
 - Compose for views
 - Room database
 - Hilt(Dagger) for Depedency Injection (Room database injected to Compose Views)
-- Toggling sounds on/off in provided time: no decision so far
+- Toggling sounds on/off in provided time: BroadcastReceivers

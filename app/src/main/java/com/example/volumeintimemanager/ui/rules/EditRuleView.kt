@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.volumeintimemanager.R
@@ -78,7 +79,7 @@ fun EditRule(rule: Rule) {
                     // TODO: fill the half of parent
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text(text = "Time From") },
+                        label = { Text(text = stringResource(id = R.string.timeFrom_hint)) },
                         readOnly = true,
                         value = timeFrom,
                         onValueChange = { timeFrom = it; rule.timeFrom = timeFrom },
@@ -97,7 +98,7 @@ fun EditRule(rule: Rule) {
                     // TODO: fill the half of parent
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text(text = "Time To") },
+                        label = { Text(text = stringResource(id = R.string.timeTo_hint)) },
                         readOnly = true,
                         value = timeTo,
                         onValueChange = { timeTo = it },
@@ -148,7 +149,11 @@ fun EditRule(rule: Rule) {
                     }
                 }
                 if (showTimePickerTimeFrom || showTimePickerTimeTo) {
-                    val selectTimeCaption = if (showTimePickerTimeFrom) "Select Time From" else "Select Time To"
+                    val selectTimeCaption =
+                        if (showTimePickerTimeFrom)
+                            stringResource(id = R.string.select_time_from)
+                        else
+                            stringResource(id = R.string.select_time_to)
 
                     TimePickerDialog(
                         title = selectTimeCaption,

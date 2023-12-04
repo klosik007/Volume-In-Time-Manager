@@ -106,19 +106,19 @@ private fun RuleRow(viewModel: HomeViewModel? = hiltViewModel(), rule: Rule, ala
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (rule.monday)
-                WeekDayText(weekDay = "Monday")
+                WeekDayText(weekDay = stringResource(id = R.string.monday))
             if (rule.tuesday)
-                WeekDayText(weekDay = "Tuesday")
+                WeekDayText(weekDay = stringResource(id = R.string.tuesday))
             if (rule.wednesday)
-                WeekDayText(weekDay = "Wednesday")
+                WeekDayText(weekDay = stringResource(id = R.string.wednesday))
             if (rule.thursday)
-                WeekDayText(weekDay = "Thursday")
+                WeekDayText(weekDay = stringResource(id = R.string.thursday))
             if (rule.friday)
-                WeekDayText(weekDay = "Friday")
+                WeekDayText(weekDay = stringResource(id = R.string.friday))
             if (rule.saturday)
-                WeekDayText(weekDay = "Saturday")
+                WeekDayText(weekDay = stringResource(id = R.string.saturday))
             if (rule.sunday)
-                WeekDayText(weekDay = "Sunday")
+                WeekDayText(weekDay = stringResource(id = R.string.sunday))
         }
 
         Column(
@@ -283,7 +283,7 @@ private fun AddRuleDialog(
                     }
                 ) {
                     Text(
-                        text = "Cancel"
+                        text = stringResource(id = R.string.cancel)
                     )
                 }
             }

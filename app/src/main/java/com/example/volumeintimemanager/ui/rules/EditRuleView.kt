@@ -19,15 +19,14 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
-import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,7 +68,10 @@ fun EditRule(rule: Rule) {
             Column(
                 modifier = Modifier.padding(end = 5.dp)
             ) {
-                Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {
+                Row(modifier = Modifier
+                                .padding(start = 24.dp, top = 24.dp, end = 24.dp)
+                                .align(Alignment.CenterHorizontally))
+                {
                    DayPicker(rule)
                 }
                 Row(modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp)) {

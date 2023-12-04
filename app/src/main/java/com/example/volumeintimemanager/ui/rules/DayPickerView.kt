@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -20,6 +19,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.volumeintimemanager.domain.model.Rule
@@ -34,23 +35,27 @@ fun DayPicker(rule: Rule) {
         )
     }
 
-    Row() {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val circleSize = screenWidth / (weekDaysLetters.size * 2)
+
+    Row {
         for (idx in weekDaysLetters.indices) {
-            Column() {
-                DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx], weekDayApply = weekDaysApplies[idx], rule = rule)
+            Column {
+                DayCircle(weekDayIdx = idx, weekDay = weekDaysLetters[idx],
+                    weekDayApply = weekDaysApplies[idx], rule = rule, size = circleSize)
             }
         }
     }
 }
 
 @Composable
-private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, rule: Rule) {
+private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, rule: Rule, size: Dp) {
     val isFilled = remember { mutableStateOf(weekDayApply) }
 
     Box {
         Canvas(
             modifier = Modifier
-                .size(36.dp)
+                .size(size)
                 .clickable {
                     isFilled.value = !isFilled.value
                     when (weekDayIdx) {
@@ -64,12 +69,12 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, r
                     }
                 },
             onDraw = {
-                val canvasWidth = size.width
-                val canvasHeight = size.height
+                val canvasWidth = this.size.width
+                val canvasHeight = this.size.height
                 drawCircle(
                     color = Color.Blue,
                     center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
-                    radius = 40f,
+                    radius = size.value,
                     style = if (isFilled.value) Fill else Stroke(5f)
                 )
             }
@@ -78,7 +83,7 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, r
             modifier = Modifier.align(Alignment.Center),
             text = weekDay,
             color = if (isFilled.value) Color.White else Color.Black,
-            fontSize = 16.sp
+            fontSize = size.value.sp / 2
         )
     }
 }
@@ -86,11 +91,11 @@ private fun DayCircle(weekDayIdx: Int, weekDay: String, weekDayApply: Boolean, r
 @Preview
 @Composable
 private fun DayCirclePreview() {
+    val size: Dp = 50.dp
     Surface {
         DayCircle(0, "M", true, Rule(
             0, true, "", "", false, false,
-            false, false, false, false, false, false)
-        )
+            false, false, false, false, false, false), size)
     }
 }
 
